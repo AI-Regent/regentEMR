@@ -17,7 +17,7 @@ type User struct {
 	Phonenumber string    `json:"phonenumber"`
 	Email       string    `json:"email" gorm:"unique"`
 	Password    string    `json:"password"`
-	Role        string    `json:"role" validate:"required, eq=ADMIN|eq=QA|eq=QC|eq=DA|eq=MONITOR|eq=USER|eq=SADMIN"`
+	Role        string    `json:"role" validate:"required, eq=ADMIN|eq=QA|eq=QC|eq=DA|eq=MONITOR|eq=USER|eq=SADMIN|eq=ADMIN"`
 	Approved    bool      `json:"approved"`
 	Created_at  time.Time `json:"created_at" gorm:"column:created_at; type:timestamp; default: NOW(); not null; <-:create"`
 	Updated_at  time.Time `json:"updated_at" gorm:"column:created_at; type:timestamp; default: NOW(); <-:update"`

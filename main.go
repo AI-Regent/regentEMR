@@ -28,6 +28,9 @@ func setupRouter() *gin.Engine {
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "Welcome home")
+	})
 
 	api := r.Group("/api")
 	{
@@ -37,9 +40,10 @@ func setupRouter() *gin.Engine {
 			public.POST("/signup", controllers.Signup)
 		}
 
-		protected := api.Group("/auth").Use(middlewares.Auth())
+		protected := api.Group("/auth").Use(middlewares.Authz())
 		{
 			protected.GET("/profile", controllers.Profile)
+			protected.POST("/department", controllers.CreateDepartment)
 		}
 	}
 
@@ -53,11 +57,14 @@ func main() {
 	// if err != nil {
 	// 	panic("failed to connect database")
 	// }
+
 	database.DBCon.AutoMigrate(&models.User{})
+	database.DBCon.AutoMigrate(&models.Doctor{})
+	database.DBCon.AutoMigrate(&models.Department{})
 
-	// // CREATE TEST DATA
+	// CREATE TEST DATA
 
-	// // User Data
+	// User Data
 	database.DBCon.Create(&models.User{Username: "OBrien", Firstname: "Brian", Lastname: "Otieno", Phonenumber: "+254723328969", Email: "gebryo@intelligencia.com", Password: "$2a$14$SaSgFyNhW9ncAmMf19BTg.wSlAV2dctl/MXNsSdpYKupJE6AWAhpy", Role: "SADMIN", Approved: true})
 	database.DBCon.Create(&models.User{Username: "jdoe", Firstname: "Jane", Lastname: "Doe", Phonenumber: "+254713846445", Email: "jane.doe.com", Password: "$2a$14$hTW2RgNLwKpnG4tNVKMZLed2thwKqtSuB7OOJhsJmKg8HD8/FRjkS", Role: "ADMIN", Approved: true})
 

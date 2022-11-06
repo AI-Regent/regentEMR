@@ -8,7 +8,7 @@ import (
 )
 
 // Authz validates token and authorizes users
-func Auth() gin.HandlerFunc {
+func Authz() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientToken := c.Request.Header.Get("Authorization")
 		if clientToken == "" {
